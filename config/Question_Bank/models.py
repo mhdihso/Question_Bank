@@ -28,15 +28,17 @@ class Lesson(models.Model):
         return self.name
 
 class Choises(models.Model):
-    option1=models.CharField(max_length=150)
-    option2=models.CharField(max_length=150)
-    option3=models.CharField(max_length=150)
-    option4=models.CharField(max_length=150)
+    option1=models.CharField(max_length=150,null=False)
+    option2=models.CharField(max_length=150,null=False)
+    option3=models.CharField(max_length=150,null=True,blank=True)
+    option4=models.CharField(max_length=150,null=True,blank=True)
+    option5=models.CharField(max_length=150,null=True,blank=True)
+
 
 class Questions(models.Model):
 
     TYPE_QUESTION= (
-        ('1', 'Four options'),
+        ('1', 'Multi options'),
         ('2', 'Descriptive '),
         ('3', 'True or False'),
         ('4', 'blank')
