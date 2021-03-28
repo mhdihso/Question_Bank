@@ -8,12 +8,21 @@ class Grades(models.Model):
     
 class Fileds(models.Model):
     name=models.CharField(max_length=100)
+    grades=models.ForeignKey(Grades,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
 
 class Periods(models.Model):
     name=models.CharField(max_length=100)
+    fileds=models.ForeignKey(Fileds,on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+class Lesson(models.Model):
+    name=models.CharField(max_length=150)
+    period=models.ForeignKey(Periods,on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
@@ -30,16 +39,15 @@ class Questions(models.Model):
         ('1', 'Four options'),
         ('2', 'Descriptive '),
         ('3', 'True or False'),
-        ('4','blank')
+        ('4', 'blank')
     )
 
     type_qu=models.TextField(max_length=1, choices=TYPE_QUESTION,null=False)
     text=models.CharField(max_length=250)
-    choices=models.ForeignKey(Choises,on_delete=models.CASCADE)
+    choices=models.ForeignKey(Choises,on_delete=models.CASCADE,blank=True, null=True)
     answer=models.CharField(max_length=150)
-    image=models.ImageField(upload_to='Questions_img',blank=True, null=True)
+    question_image=models.ImageField(upload_to='Questions_img',blank=True, null=True)
+    answer_image=models.ImageField(upload_to='Answer_img',blank=True, null=True)
     hardness=models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
     source=models.CharField(max_length=100)
-    grade=models.ManyToManyField(Grades,blank=False)
-    field=models.ManyToManyField(Fileds)
-    period=models.ManyToManyField(Periods,blank=False)
+    lesson=models.ManyToManyField(Lesson)

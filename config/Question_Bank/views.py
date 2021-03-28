@@ -13,6 +13,17 @@ class CreateQs(generics.CreateAPIView):
     permission_classes=[permissions.IsAdminUser,]
 
     def create(self, request, *args, **kwargs):
+        data=request.data
+        type_qu=data.get('type_qu')
+        choises=data.get('choices')
+        if type_qu == "2":
+            if choises == None:
+                return Response ({"message":"ERROR,This is not a multiple choice question"},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+        else:
+            if choises != None:
+                return Response ({"message":"ERROR,This is not a multiple choice question"},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)
@@ -34,38 +45,45 @@ class ListQs(generics.ListAPIView):
     serializer_class = serialaizers.Questionserialaizer
     permission_classes=[permissions.IsAdminUser,]
 
-class CreateFileds(generics.CreateAPIView):
-    serializer_class= serialaizers.Fieldsserialaizer
-    permission_classes=[permissions.IsAdminUser,]
+class DetailQs(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field='id'
+    queryset=models.Questions.objects.all()
+    serializer_class= serialaizers.Choisesserialaizer
+    permission_classes=[permissions.IsAdminUser]
 
-class ListFields(generics.ListAPIView):
-    queryset=models.Fileds.objects.all()
-    serializer_class=serialaizers.Fieldsserialaizer
-    permission_classes=[permissions.IsAdminUser,]
+# class CreateFileds(generics.CreateAPIView):
+#     serializer_class= serialaizers.Fieldsserialaizer
+#     permission_classes=[permissions.IsAdminUser,]
 
-class CreateGrades(generics.CreateAPIView):
-    serializer_class= serialaizers.Gradeserialaizer
-    permission_classes=[permissions.IsAdminUser,]
+# class ListFields(generics.ListAPIView):
+#     queryset=models.Fileds.objects.all()
+#     serializer_class=serialaizers.Fieldsserialaizer
+#     permission_classes=[permissions.IsAdminUser,]
 
-class ListGrades(generics.ListAPIView):
-    queryset=models.Grades.objects.all()
-    serializer_class=[serialaizers.Gradeserialaizer]
-    permission_classes=[permissions.IsAdminUser,]
+# class CreateGrades(generics.CreateAPIView):
+#     serializer_class= serialaizers.Gradeserialaizer
+#     permission_classes=[permissions.IsAdminUser,]
+
+# class ListGrades(generics.ListAPIView):
+#     queryset=models.Grades.objects.all()
+#     serializer_class=[serialaizers.Gradeserialaizer]
+#     permission_classes=[permissions.IsAdminUser,]
 
 class CreateOptions(generics.CreateAPIView):
     serializer_class= serialaizers.Choisesserialaizer
     permission_classes=[permissions.IsAdminUser,]
 
-class ListOptions(generics.ListAPIView):
+class DetailOptions(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field='id'
     queryset=models.Choises.objects.all()
     serializer_class= serialaizers.Choisesserialaizer
     permission_classes=[permissions.IsAdminUser]
 
-class CreatePeriod(generics.CreateAPIView):
-    serializer_class=[serialaizers.Periodsserialaizer]
-    permission_classes=[permissions.IsAdminUser]
+# class CreatePeriod(generics.CreateAPIView):
+#     serializer_class=[serialaizers.Periodsserialaizer]
+#     permission_classes=[permissions.IsAdminUser]
 
-class ListPeriod(generics.ListAPIView):
-    queryset=models.Periods.objects.all()
-    serializer_class= serialaizers.Periodsserialaizer
-    permission_classes=[permissions.IsAdminUser,]
+# class ListPeriod(generics.ListAPIView):
+#     queryset=models.Periods.objects.all()
+#     serializer_class= serialaizers.Periodsserialaizer
+#     permission_classes=[permissions.IsAdminUser,]
