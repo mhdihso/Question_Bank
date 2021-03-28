@@ -17,7 +17,7 @@ class CreateQs(generics.CreateAPIView):
         type_qu=data.get('type_qu')
         choises=data.get('choices')
         answer_choice=data.get('answer_choice')
-        if type_qu == "2":
+        if type_qu == "1":
             if choises == None or answer_choice==None:
                 return Response ({"message":"ERROR"},status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
