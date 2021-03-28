@@ -13,6 +13,9 @@ class CreateQs(generics.CreateAPIView):
     permission_classes=[permissions.IsAdminUser,]
 
     def create(self, request, *args, **kwargs):
+        Qs_data = request.data
+        current_user = request.user
+        Qs_data["written_by"] = current_user.id
         data=request.data
         type_qu=data.get('type_qu')
         choises=data.get('choices')
@@ -35,7 +38,9 @@ class CreateQs(generics.CreateAPIView):
         serializer.save()
 
 class ListQs(generics.ListAPIView):
-    queryset=models.Questions.objects.all()
+    def get_queryset(self):
+        return models.Questions.objects.filter(written_by=self.request.user.id)
+
     serializer_class = serialaizers.Questionserialaizer
     permission_classes=[permissions.IsAdminUser,]
 
