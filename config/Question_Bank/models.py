@@ -46,7 +46,7 @@ class Questions(models.Model):
         ('3', 'True or False'),
         ('4', 'blank')
     )
-    written_by= models.ForeignKey(User,on_delete=models.CASCADE)
+    creator= models.ForeignKey(User,on_delete=models.CASCADE)
     type_qu=models.TextField(max_length=1, choices=TYPE_QUESTION,null=False)
     text=models.CharField(max_length=250)
     choices=models.ForeignKey(Choises,on_delete=models.CASCADE,blank=True, null=True)

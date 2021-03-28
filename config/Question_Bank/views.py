@@ -15,7 +15,7 @@ class CreateQs(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         Qs_data = request.data
         current_user = request.user
-        Qs_data["written_by"] = current_user.id
+        Qs_data["creator"] = current_user.id
         data=request.data
         type_qu=data.get('type_qu')
         choises=data.get('choices')
