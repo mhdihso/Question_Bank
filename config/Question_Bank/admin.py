@@ -7,4 +7,5 @@ admin.site.register(models.Fileds)
 admin.site.register(models.Grades)
 admin.site.register(models.Choises)
 admin.site.register(models.Lesson)
-
+admin.site.register(models.CourseGroup)
+admin.site.register(models.Category)
