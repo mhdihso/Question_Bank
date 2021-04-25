@@ -4,6 +4,9 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
 
+class Source(models.Model):
+    name = models.CharField(_('نام منبع'),max_length=200)
+
 class CourseGroup(models.Model):
     name = models.CharField(_("نام گروه درسی"),max_length=100)
 
@@ -46,6 +49,10 @@ class Lesson(models.Model):
     def __str__(self):
         return self.name
 
+class Season(models.Model):
+    name = models.CharField(_("نام فصل"),max_length=200)
+    lesson = models.ForeignKey(Lesson,on_delete=models.CASCADE)
+
 class Choises(models.Model):
     option1=models.CharField(_("گزینه ۱"),max_length=150,null=False)
     option2=models.CharField(_("گزینه ۲"),max_length=150,null=False)
@@ -73,8 +80,12 @@ class Questions(models.Model):
     answer_image=models.ImageField(_("تصویر جواب"),upload_to='Answer_img',blank=True, null=True)
     answer_voice=models.FileField(_("فایل صوتی جواب"),upload_to='Answer_voice',blank=True, null=True)
     hardness=models.PositiveIntegerField(_("درجه سختی"),validators=[MinValueValidator(1), MaxValueValidator(10)],null=False)
-    source=models.CharField(_("منبع"),max_length=100,null=False)
-    lesson=models.ManyToManyField(Lesson)
+    numberـofـuses = models.IntegerField(_("تعداد استفاده"),validators=[MinValueValidator(0)],)
+    number_of_correct_answers = models.IntegerField(_("تعداد جواب درست"),validators=[MinValueValidator(0)],)
+    numberـofـincorrectـanswers = models.IntegerField(_("تعداد جواب غلط"),validators=[MinValueValidator(0)],)
+    likes = models.IntegerField(_("لایک"),validators=[MinValueValidator(0)],)
+    source=models.ForeignKey(Source,max_length=100,null=False ,on_delete=models.CASCADE)
+    season=models.ManyToManyField(Season)
 
     @property
     def answer(self):
